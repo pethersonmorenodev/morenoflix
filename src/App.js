@@ -1,11 +1,10 @@
 import React from 'react';
+import Menu from './components/Menu';
 
 function App() {
   return (
     <div>
-      <h1>Hello world</h1>
-      Alguma coisa ai no meio
-      Update automatico (Hot reload não é hot roll)
+      <Menu />
     </div>
   );
 }
