@@ -10,7 +10,7 @@ const defaultValues = {
   linkTexto: '',
   linkUrl: '',
 };
-const API_BASE = window.location.hostname.includes('localhost') ? 'http://localhost:8080' : 'http://morenoflix.herokuapp.com';
+const API_BASE = window.location.hostname.includes('localhost') ? 'http://localhost:8080' : 'https://morenoflix.herokuapp.com';
 const URL_CATEGORIAS = `${API_BASE}/categorias`;
 const CadastroCategoria = () => {
   const [loading, setLoading] = useState(true);
