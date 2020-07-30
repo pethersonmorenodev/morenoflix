@@ -43,7 +43,8 @@ const CadastroCategoria = () => {
   };
 
   useEffect(() => {
-    const URL_TOP = 'http://localhost:8080/categorias';
+    const API_BASE = window.location.hostname.includes('localhost') ? 'http://localhost:8080' : 'http://morenoflix.herokuapp.com';
+    const URL_TOP = `${API_BASE}/categorias`;
     fetch(URL_TOP).then((r) => r.json()).then((resposta) => setCategorias([...resposta]));
   }, []);
 
