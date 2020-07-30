@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { VideoCardGroupContainer, Title, ExtraLink } from './styles';
 import VideoCard from './components/VideoCard';
 import Slider, { SliderItem } from './components/Slider';
@@ -10,7 +11,7 @@ function Carousel({
   const categoryTitle = category.titulo;
   const categoryColor = category.cor;
   const categoryExtraLink = category.link_extra;
-  const videos = category.videos;
+  const { videos } = category;
   return (
     <VideoCardGroupContainer>
       {categoryTitle && (
@@ -18,11 +19,12 @@ function Carousel({
           <Title style={{ backgroundColor: categoryColor || 'red' }}>
             {categoryTitle}
           </Title>
-          {categoryExtraLink && 
+          {categoryExtraLink
+            && (
             <ExtraLink href={categoryExtraLink.url} target="_blank">
-              {categoryExtraLink.text}  
+              {categoryExtraLink.text}
             </ExtraLink>
-          }
+            )}
         </>
       )}
       <Slider color={categoryColor}>
@@ -45,5 +47,24 @@ function Carousel({
     </VideoCardGroupContainer>
   );
 }
+Carousel.defaultProps = {
+  ignoreFirstVideo: false,
+};
+Carousel.propTypes = {
+  ignoreFirstVideo: PropTypes.bool,
+  category: PropTypes.shape({
+    titulo: PropTypes.string.isRequired,
+    link: PropTypes.string.isRequired,
+    cor: PropTypes.string.isRequired,
+    link_extra: PropTypes.shape({
+      text: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
+    }).isRequired,
+    videos: PropTypes.arrayOf(PropTypes.shape({
+      titulo: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
+    })).isRequired,
+  }).isRequired,
+};
 
 export default Carousel;
