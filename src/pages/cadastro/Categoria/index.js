@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PageDefault from '../../../components/PageDefault';
 import { Link } from 'react-router-dom';
+import FormField from '../../../components/FormField';
 
 const defaultValues = {
   nome: "",
@@ -32,41 +33,27 @@ const CadastroCategoria = ()=>{
       <h1>Cadastro de Categoria: {values.nome}</h1>
 
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>
-            Nome da Categoria:
-            <input
-              type="text"
-              value={values.nome}
-              name="nome"
-              onChange={handleChange}
-             />
-          </label>
-        </div>
-
-        <div>
-          <label>
-            Descrição:
-            <textarea
-              type="text"
-              value={values.descricao}
-              name="descricao"
-              onChange={handleChange}
-             />
-          </label>
-        </div>
-
-        <div>
-          <label>
-            Cor:
-            <input
-              type="color"
-              value={values.cor}
-              name="cor"
-              onChange={handleChange}
-             />
-          </label>
-        </div>
+        <FormField
+          label="Nome da Categoria"
+          type="text"
+          value={values.nome}
+          name="nome"
+          onChange={handleChange}
+        />
+        <FormField
+          label="Descrição"
+          type="textarea"
+          value={values.descricao}
+          name="descricao"
+          onChange={handleChange}
+        />
+        <FormField
+          label="Cor"
+          type="color"
+          value={values.cor}
+          name="cor"
+          onChange={handleChange}
+        />
         <button type="submit">
           Cadastrar
         </button>
