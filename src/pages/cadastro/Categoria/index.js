@@ -10,7 +10,10 @@ const defaultValues = {
   linkTexto: '',
   linkUrl: '',
 };
+const API_BASE = window.location.hostname.includes('localhost') ? 'http://localhost:8080' : 'http://morenoflix.herokuapp.com';
+const URL_CATEGORIAS = `${API_BASE}/categorias`;
 const CadastroCategoria = () => {
+  const [loading, setLoading] = useState(true);
   const [categorias, setCategorias] = useState([]);
   const [values, setValues] = useState(defaultValues);
   const setValue = (key, value) => {
@@ -20,7 +23,6 @@ const CadastroCategoria = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const novaCategoria = {
-      id: (categorias.length ? categorias[categorias.length - 1].id : 0) + 1,
       titulo: values.titulo,
       cor: values.cor,
     };
@@ -30,11 +32,21 @@ const CadastroCategoria = () => {
         url: values.linkUrl,
       };
     }
-    setCategorias((old) => [
-      ...old,
-      values,
-    ]);
-    setValues(defaultValues);
+
+    fetch(URL_CATEGORIAS, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      body: JSON.stringify(novaCategoria),
+    }).then((r) => r.json()).then((categoria) => {
+      setCategorias((old) => [
+        ...old,
+        categoria,
+      ]);
+      setValues(defaultValues);
+    });
   };
   const handleChange = (event) => {
     const { value } = event.target;
@@ -43,9 +55,10 @@ const CadastroCategoria = () => {
   };
 
   useEffect(() => {
-    const API_BASE = window.location.hostname.includes('localhost') ? 'http://localhost:8080' : 'http://morenoflix.herokuapp.com';
-    const URL_TOP = `${API_BASE}/categorias`;
-    fetch(URL_TOP).then((r) => r.json()).then((resposta) => setCategorias([...resposta]));
+    fetch(URL_CATEGORIAS).then((r) => r.json()).then((resposta) => {
+      setCategorias([...resposta]);
+      setLoading(false);
+    });
   }, []);
 
   return (
@@ -87,6 +100,11 @@ const CadastroCategoria = () => {
         </Button>
       </form>
 
+      {loading && (
+        <div>
+          Loading...
+        </div>
+      )}
       <ul>
         {categorias.map((categoria) => (
           <li key={categoria.id}>{categoria.titulo}</li>
