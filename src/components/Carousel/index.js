@@ -54,12 +54,12 @@ Carousel.propTypes = {
   ignoreFirstVideo: PropTypes.bool,
   category: PropTypes.shape({
     titulo: PropTypes.string.isRequired,
-    link: PropTypes.string.isRequired,
+    link: PropTypes.string,
     cor: PropTypes.string.isRequired,
     link_extra: PropTypes.shape({
       text: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
-    }).isRequired,
+    }),
     videos: PropTypes.arrayOf(PropTypes.shape({
       titulo: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,

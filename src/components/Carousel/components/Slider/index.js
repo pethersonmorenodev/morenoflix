@@ -57,7 +57,7 @@ const Slider = ({ children, color }) => (
 );
 Slider.propTypes = {
   color: PropTypes.string.isRequired,
-  children: PropTypes.oneOf(PropTypes.element, PropTypes.arrayOf(PropTypes.element)).isRequired,
+  children: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)]).isRequired,
 };
 
 export default Slider;
