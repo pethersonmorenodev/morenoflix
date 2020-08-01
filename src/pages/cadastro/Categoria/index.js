@@ -3,24 +3,20 @@ import { Link } from 'react-router-dom';
 import PageDefault from '../../../components/PageDefault';
 import FormField from '../../../components/FormField';
 import Button from '../../../components/Button';
+import useForm from '../../../hooks/useForm';
+import categoriasRepository from '../../../repositories/categorias';
 
-const defaultValues = {
+const valoresIniciaisToForm = {
   titulo: '',
   cor: '#000000',
   linkTexto: '',
   linkUrl: '',
 };
-const API_BASE = window.location.hostname.includes('localhost')
-  ? 'http://localhost:8080'
-  : 'https://morenoflix.herokuapp.com';
-const URL_CATEGORIAS = `${API_BASE}/categorias`;
+
 const CadastroCategoria = () => {
   const [loading, setLoading] = useState(true);
   const [categorias, setCategorias] = useState([]);
-  const [values, setValues] = useState(defaultValues);
-  const setValue = (key, value) => {
-    setValues(old => ({ ...old, [key]: value }));
-  };
+  const { values, handleChange, clearForm } = useForm(valoresIniciaisToForm);
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -35,33 +31,17 @@ const CadastroCategoria = () => {
       };
     }
 
-    fetch(URL_CATEGORIAS, {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-      body: JSON.stringify(novaCategoria),
-    })
-      .then(r => r.json())
-      .then(categoria => {
-        setCategorias(old => [...old, categoria]);
-        setValues(defaultValues);
-      });
-  };
-  const handleChange = event => {
-    const { value } = event.target;
-    const name = event.target.getAttribute('name');
-    setValue(name, value);
+    categoriasRepository.create(novaCategoria).then(categoria => {
+      setCategorias(old => [...old, categoria]);
+      clearForm();
+    });
   };
 
   useEffect(() => {
-    fetch(URL_CATEGORIAS)
-      .then(r => r.json())
-      .then(resposta => {
-        setCategorias([...resposta]);
-        setLoading(false);
-      });
+    categoriasRepository.getAll().then(resposta => {
+      setCategorias([...resposta]);
+      setLoading(false);
+    });
   }, []);
 
   return (
