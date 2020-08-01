@@ -33,7 +33,7 @@ ContentAreaContainer.Category = styled.h1`
   display: flex;
   align-items: center;
   text-align: center;
-  display: inline-block; 
+  display: inline-block;
   padding: 25px;
   line-height: 1;
   border-radius: 4px;
@@ -69,7 +69,7 @@ export const BannerMainContainer = styled.section`
   height: 80vh;
   position: relative;
   color: #fff;
-  background-image: ${({ backgroundImage }) => `url(${backgroundImage})`}; 
+  background-image: ${({ backgroundImage }) => `url(${backgroundImage})`};
   background-size: cover;
   background-position: center;
   @media (max-width: 800px) {
@@ -79,7 +79,7 @@ export const BannerMainContainer = styled.section`
 
   &:after,
   &:before {
-    content: "";
+    content: '';
     display: block;
     position: absolute;
     left: 0;
@@ -91,7 +91,7 @@ export const BannerMainContainer = styled.section`
   &:before {
     top: 0;
     height: 100%;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
   }
 
   &:after {
@@ -116,7 +116,7 @@ export const WatchButton = styled.button`
   color: var(--black);
   background: var(--white);
   border-color: var(--black);
-  transition: opacity .3s;
+  transition: opacity 0.3s;
   display: none;
   margin: 0 auto;
   @media (max-width: 800px) {

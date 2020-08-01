@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 import { VideoCardContainer } from './styles';
 
 function getYouTubeId(youtubeURL) {
-  return youtubeURL
-    .replace(
-      /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/,
-      '$7',
-    );
+  return youtubeURL.replace(/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/, '$7');
 }
 
 function VideoCard({ videoTitle, videoURL, categoryColor }) {

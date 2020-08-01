@@ -18,10 +18,10 @@ const Container = styled.ul`
     transform: initial;
     &:before {
       font-size: 30px;
-      color: ${(props) => (props.color ? props.color : '#fff')};
+      color: ${props => (props.color ? props.color : '#fff')};
     }
   }
-  
+
   .slick-prev {
     left: 0;
   }
@@ -42,14 +42,15 @@ export const SliderItem = styled.li`
 
 const Slider = ({ children, color }) => (
   <Container color={color}>
-    <SlickSlider {...{
-      dots: false,
-      infinite: true,
-      speed: 300,
-      centerMode: false,
-      variableWidth: true,
-      adaptiveHeight: true,
-    }}
+    <SlickSlider
+      {...{
+        dots: false,
+        infinite: true,
+        speed: 300,
+        centerMode: false,
+        variableWidth: true,
+        adaptiveHeight: true,
+      }}
     >
       {children}
     </SlickSlider>
