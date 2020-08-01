@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
     es6: true,
   },
-  extends: ['plugin:react/recommended', 'airbnb', 'prettier'],
+  extends: ['airbnb', 'prettier', 'prettier/react'],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
@@ -23,6 +23,13 @@ module.exports = {
     'react/no-array-index-key': 'off',
     'implicit-arrow-linebreak': 'off',
     'arrow-parens': ['error', 'as-needed'],
-    'max-len': 'off',
+    'max-len': [
+      1,
+      {
+        code: 120,
+        ignoreComments: true,
+        ignoreUrls: true,
+      },
+    ],
   },
 };
