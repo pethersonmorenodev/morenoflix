@@ -12,9 +12,6 @@ const valoresIniciaisToForm = {
   url: '',
   categoria: '',
 };
-valoresIniciaisToForm.titulo = 'Video teste';
-valoresIniciaisToForm.url = 'https://www.youtube.com/watch?v=hhQ3RtvmfEg';
-valoresIniciaisToForm.categoria = 'Front End';
 
 const CadastroVideo = () => {
   const [categorias, setCategorias] = useState([]);
