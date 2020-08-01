@@ -20,6 +20,7 @@ const CadastroVideo = () => {
   const [categorias, setCategorias] = useState([]);
   const history = useHistory();
   const { values, handleChange } = useForm(valoresIniciaisToForm);
+  const categoryTitles = categorias.map(({ titulo }) => titulo);
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -52,7 +53,13 @@ const CadastroVideo = () => {
       <form onSubmit={handleSubmit}>
         <FormField label="Título do Vídeo" value={values.titulo} name="titulo" onChange={handleChange} />
         <FormField label="URL do Vídeo" value={values.url} name="url" onChange={handleChange} />
-        <FormField label="Categoria" value={values.categoria} name="categoria" onChange={handleChange} />
+        <FormField
+          label="Categoria"
+          value={values.categoria}
+          name="categoria"
+          onChange={handleChange}
+          suggestions={categoryTitles}
+        />
         <Button type="submit">Cadastrar</Button>
       </form>
 
