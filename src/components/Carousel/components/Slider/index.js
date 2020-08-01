@@ -55,9 +55,10 @@ const Slider = ({ children, color }) => (
     </SlickSlider>
   </Container>
 );
+const ChildElement = PropTypes.oneOfType([PropTypes.element, PropTypes.bool, PropTypes.string]);
 Slider.propTypes = {
   color: PropTypes.string.isRequired,
-  children: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)]).isRequired,
+  children: PropTypes.oneOfType([ChildElement, PropTypes.arrayOf(ChildElement)]).isRequired,
 };
 
 export default Slider;
