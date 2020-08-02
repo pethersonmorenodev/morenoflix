@@ -40,6 +40,11 @@
         "text": "Formação de Jogos na Alura",
         "url": "https://www.alura.com.br/cursos-online-front-end"
       }
+    },
+    {
+      "titulo": "Arquitetura de Software",
+      "cor": "#f9b400",
+      "id": 6
     }
   ],
   "videos": [
@@ -186,6 +191,12 @@
       "categoriaId": 5,
       "titulo": "Resident Evil 8",
       "url": "https://www.youtube.com/watch?v=JSapXD9vxYA"
+    },
+    {
+      "titulo": "Arquitetura limpa com Robert C. Martin (Uncle Bob)",
+      "url": "https://www.youtube.com/watch?v=2dKZ-dWaCiU",
+      "categoriaId": 6,
+      "id": 25
     }
   ]
 }
