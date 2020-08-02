@@ -7,6 +7,17 @@ const GameArea = styled.div`
   margin: 0 auto;
   display: flex;
   justify-content: center;
+  margin-bottom: 20px;
+`;
+const GameAreaCanvas = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 30px 0px;
+  width: 100%;
+  max-width: 480px;
+  overflow: hidden;
+  background-color: #30858e;
+  border: 2px solid white;
 `;
 
 const urlBaseGame = 'https://pethersonmoreno.github.io/flappy-bird-moreno';
@@ -22,7 +33,7 @@ const Pagina404 = () => {
   useEffect(() => {
     let umount;
     if (ready) {
-      umount = window.mountFlappyBird(document.querySelector('.gameArea'), urlBaseGame);
+      umount = window.mountFlappyBird(document.querySelector('.gameAreaCanvas'), urlBaseGame);
     }
     return () => {
       if (umount) {
@@ -34,7 +45,9 @@ const Pagina404 = () => {
   return (
     <PageDefault>
       <h1>Página não encontrada - aproveite o Flappy Bird</h1>
-      <GameArea className="gameArea" />
+      <GameArea>
+        <GameAreaCanvas className="gameAreaCanvas" />
+      </GameArea>
     </PageDefault>
   );
 };
