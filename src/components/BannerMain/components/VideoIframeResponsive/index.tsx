@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { VideoContainer, ResponsiveIframe } from './styles';
 
-function YouTubeIframeResponsive({ youtubeID }) {
+function YouTubeIframeResponsive({ youtubeID }: { youtubeID: string }) {
   return (
     <VideoContainer>
       <ResponsiveIframe

@@ -39,8 +39,13 @@ export const SliderItem = styled.li`
     object-fit: cover;
   }
 `;
+type TChildElement = React.ReactElement<React.HTMLAttributes<HTMLElement>> | null | undefined;
+type TParamsSlider = {
+  children: Array<TChildElement> | TChildElement;
+  color: string;
+};
 
-const Slider = ({ children, color }) => (
+const Slider = ({ children, color }: TParamsSlider) => (
   <Container color={color}>
     <SlickSlider
       {...{

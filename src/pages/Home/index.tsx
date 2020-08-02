@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import BannerMain from '../../components/BannerMain';
 import Carousel from '../../components/Carousel';
 import PageDefault from '../../components/PageDefault';
-import categoriasRepository from '../../repositories/categorias';
+import categoriasRepository, { ICategoriaWithVideo } from '../../repositories/categorias';
 
 function Home() {
-  const [dadosIniciais, setDadosIniciais] = useState([]);
+  const [dadosIniciais, setDadosIniciais] = useState<ICategoriaWithVideo[]>([]);
   useEffect(() => {
     categoriasRepository
       .getAllWithVideos()

@@ -1,4 +1,4 @@
-const objToQuerystring = obj => {
+const objToQuerystring = (obj: any) => {
   if (!obj) {
     return '';
   }

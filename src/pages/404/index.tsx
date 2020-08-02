@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { useEffectResScriptLoader } from '@morenobr/guideline-react-hooks';
 import styled from 'styled-components';
 import PageDefault from '../../components/PageDefault';
@@ -22,7 +22,16 @@ const GameAreaCanvas = styled.div`
 
 const urlBaseGame = 'https://pethersonmoreno.github.io/flappy-bird-moreno';
 
+const mountFlappyBird = (
+  parentElement: HTMLElement,
+  urlBase?: string,
+  userInteractionElement?: HTMLElement,
+): (() => void) => {
+  return (window as any).mountFlappyBird(parentElement, urlBase, userInteractionElement);
+};
+
 const Pagina404 = () => {
+  const refGameAreacanvas = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
   useEffectResScriptLoader({
     src: `${urlBaseGame}/jogo.js`,
@@ -31,9 +40,9 @@ const Pagina404 = () => {
     }, []),
   });
   useEffect(() => {
-    let umount;
-    if (ready) {
-      umount = window.mountFlappyBird(document.querySelector('.gameAreaCanvas'), urlBaseGame);
+    let umount: (() => void) | undefined;
+    if (ready && refGameAreacanvas.current) {
+      umount = mountFlappyBird(refGameAreacanvas.current, urlBaseGame);
     }
     return () => {
       if (umount) {
@@ -46,7 +55,7 @@ const Pagina404 = () => {
     <PageDefault>
       <h1>Página não encontrada - aproveite o Flappy Bird</h1>
       <GameArea>
-        <GameAreaCanvas className="gameAreaCanvas" />
+        <GameAreaCanvas ref={refGameAreacanvas} />
       </GameArea>
     </PageDefault>
   );

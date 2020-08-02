@@ -4,7 +4,7 @@ import PageDefault from '../../../components/PageDefault';
 import FormField from '../../../components/FormField';
 import Button from '../../../components/Button';
 import useForm from '../../../hooks/useForm';
-import categoriasRepository from '../../../repositories/categorias';
+import categoriasRepository, { ICategoria, ICategoriaWithoutId } from '../../../repositories/categorias';
 
 const valoresIniciaisToForm = {
   titulo: '',
@@ -15,12 +15,12 @@ const valoresIniciaisToForm = {
 
 const CadastroCategoria = () => {
   const [loading, setLoading] = useState(true);
-  const [categorias, setCategorias] = useState([]);
+  const [categorias, setCategorias] = useState<ICategoria[]>([]);
   const { values, handleChange, clearForm } = useForm(valoresIniciaisToForm);
 
-  const handleSubmit = event => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const novaCategoria = {
+    const novaCategoria: ICategoriaWithoutId = {
       titulo: values.titulo,
       cor: values.cor,
     };

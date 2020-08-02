@@ -11,14 +11,14 @@ const Main = styled.main`
   padding-top: 50px;
   padding-left: 5%;
   padding-right: 5%;
-  ${({ paddingAll }) =>
+  ${({ paddingAll }: { paddingAll?: number }) =>
     paddingAll !== undefined &&
     css`
       padding: ${paddingAll};
     `}
 `;
 
-const PageDefault = ({ children, paddingAll }) => (
+const PageDefault = ({ children, paddingAll }: { children: any; paddingAll?: number }) => (
   <>
     <Menu />
     <Main paddingAll={paddingAll}>{children}</Main>

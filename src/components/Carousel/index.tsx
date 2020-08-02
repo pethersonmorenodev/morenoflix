@@ -3,8 +3,14 @@ import PropTypes from 'prop-types';
 import { VideoCardGroupContainer, Title, ExtraLink } from './styles';
 import VideoCard from './components/VideoCard';
 import Slider, { SliderItem } from './components/Slider';
+import { ICategoria } from '../../repositories/categorias';
 
-function Carousel({ ignoreFirstVideo, category }) {
+type TParamsCarousel = {
+  ignoreFirstVideo?: boolean;
+  category: ICategoria;
+};
+
+function Carousel({ ignoreFirstVideo, category }: TParamsCarousel) {
   const categoryTitle = category.titulo;
   const categoryColor = category.cor;
   const categoryExtraLink = category.link_extra;
@@ -22,17 +28,18 @@ function Carousel({ ignoreFirstVideo, category }) {
         </>
       )}
       <Slider color={categoryColor}>
-        {videos.map((video, index) => {
-          if (ignoreFirstVideo && index === 0) {
-            return null;
-          }
+        {videos &&
+          videos.map((video, index) => {
+            if (ignoreFirstVideo && index === 0) {
+              return null;
+            }
 
-          return (
-            <SliderItem key={video.titulo}>
-              <VideoCard videoTitle={video.titulo} videoURL={video.url} categoryColor={categoryColor} />
-            </SliderItem>
-          );
-        })}
+            return (
+              <SliderItem key={video.titulo}>
+                <VideoCard videoTitle={video.titulo} videoURL={video.url} categoryColor={categoryColor} />
+              </SliderItem>
+            );
+          })}
       </Slider>
     </VideoCardGroupContainer>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { css } from 'styled-components';
+import styled, { css, StyledComponentBase, StyledComponent } from 'styled-components';
 
 const FormFieldWrapper = styled.div`
   position: relative;
@@ -11,8 +11,11 @@ const FormFieldWrapper = styled.div`
     padding-left: 56px;
   }
 `;
+interface ILabel extends StyledComponentBase<'label', any, {}, never> {
+  Text: StyledComponent<'span', any, {}, never>;
+}
 
-const Label = styled.label``;
+const Label: ILabel = (styled.label`` as unknown) as ILabel;
 Label.Text = styled.span`
   color: #e5e5e5;
   height: 57px;
@@ -31,7 +34,7 @@ Label.Text = styled.span`
   transition: 0.1s ease-in-out;
 `;
 
-const Input = styled.input`
+const Input = (styled.input`
   background: #53585d;
   color: #f5f5f5;
   display: block;
@@ -58,7 +61,7 @@ const Input = styled.input`
     transform: scale(0.6) translateY(-10px);
   }
   ${({ value }) => {
-    const hasValue = value.length > 0;
+    const hasValue = value && typeof value === 'string' && value.length > 0;
     return (
       hasValue &&
       css`
@@ -68,25 +71,41 @@ const Input = styled.input`
       `
     );
   }}
-`;
+` as unknown) as StyledComponent<'input' | 'textarea', any, {}, never>;
 
-const FormField = ({ label, type, name, value, onChange, suggestions }) => {
+type TParamsFormField = {
+  label: string;
+  type: string;
+  name: string;
+  value: string;
+  onChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+  suggestions: string[];
+};
+
+const FormField = ({ label, type, name, value, onChange, suggestions }: TParamsFormField) => {
   const fieldId = `id_${name}`;
   const isTextarea = type === 'textarea';
-  const tag = isTextarea ? 'textarea' : 'input';
   const hasSuggestions = suggestions.length > 0;
+  let onlyInputProps = {};
+  if (!isTextarea) {
+    onlyInputProps = {
+      type,
+      autoComplete: hasSuggestions ? 'off' : 'on',
+      list: hasSuggestions ? `suggestionFor_${fieldId}` : undefined,
+    };
+  }
+
   return (
     <FormFieldWrapper>
       <Label htmlFor={fieldId}>
         <Input
-          as={tag}
+          as={isTextarea ? 'textarea' : 'input'}
           id={fieldId}
-          type={type}
           name={name}
           value={value}
           onChange={onChange}
-          autoComplete={hasSuggestions ? 'off' : 'on'}
-          list={hasSuggestions ? `suggestionFor_${fieldId}` : undefined}
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...onlyInputProps}
         />
         <Label.Text>{label}:</Label.Text>
         {hasSuggestions && (

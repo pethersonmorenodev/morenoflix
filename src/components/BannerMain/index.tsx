@@ -3,11 +3,17 @@ import PropTypes from 'prop-types';
 import VideoIframeResponsive from './components/VideoIframeResponsive';
 import { BannerMainContainer, ContentAreaContainer, WatchButton } from './styles';
 
-function getYouTubeId(youtubeURL) {
+function getYouTubeId(youtubeURL: string) {
   return youtubeURL.replace(/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/, '$7');
 }
 
-function BannerMain({ videoTitle, videoDescription, url }) {
+type TParamsBannerMain = {
+  videoTitle: string;
+  videoDescription: string;
+  url: string;
+};
+
+function BannerMain({ videoTitle, videoDescription, url }: TParamsBannerMain) {
   const youTubeID = getYouTubeId(url);
   const bgUrl = `https://img.youtube.com/vi/${youTubeID}/maxresdefault.jpg`;
 

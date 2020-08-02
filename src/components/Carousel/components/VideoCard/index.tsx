@@ -2,11 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { VideoCardContainer } from './styles';
 
-function getYouTubeId(youtubeURL) {
+function getYouTubeId(youtubeURL: string) {
   return youtubeURL.replace(/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/, '$7');
 }
+type TParamsVideoCard = {
+  videoTitle: string;
+  videoURL: string;
+  categoryColor?: string;
+};
 
-function VideoCard({ videoTitle, videoURL, categoryColor }) {
+function VideoCard({ videoTitle, videoURL, categoryColor }: TParamsVideoCard) {
   const image = `https://img.youtube.com/vi/${getYouTubeId(videoURL)}/hqdefault.jpg`;
   return (
     <VideoCardContainer

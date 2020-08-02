@@ -1,6 +1,19 @@
-import styled from 'styled-components';
+import styled, { StyledComponentBase, StyledComponent, ThemedStyledFunction } from 'styled-components';
 
-export const ContentAreaContainer = styled.section`
+function withProps<U>() {
+  return <P extends keyof JSX.IntrinsicElements | React.ComponentType<any>, T extends object, O extends object = {}>(
+    fn: ThemedStyledFunction<P, T, O>,
+  ): ThemedStyledFunction<P & U, T, O & U> => (fn as unknown) as ThemedStyledFunction<P & U, T, O & U>;
+}
+
+interface IContentAreaContainer extends StyledComponentBase<'section', any, {}, never> {
+  Item: StyledComponent<'div', any, {}, never>;
+  Category: StyledComponent<'h1', any, {}, never>;
+  Description: StyledComponent<'p', any, {}, never>;
+  Title: StyledComponent<'h2', any, {}, never>;
+}
+
+export const ContentAreaContainer = (styled.section`
   margin-left: 5%;
   margin-right: 5%;
   height: 100%;
@@ -13,7 +26,7 @@ export const ContentAreaContainer = styled.section`
     padding-top: 100px;
     flex-direction: column;
   }
-`;
+` as unknown) as IContentAreaContainer;
 
 ContentAreaContainer.Item = styled.div`
   width: 50%;
@@ -65,7 +78,12 @@ ContentAreaContainer.Title = styled.h2`
   }
 `;
 
-export const BannerMainContainer = styled.section`
+type TPropsBannerMainContainer = {
+  backgroundImage: string;
+  children: any;
+};
+
+export const BannerMainContainer = withProps<TPropsBannerMainContainer>()(styled.section)`
   height: 80vh;
   position: relative;
   color: #fff;

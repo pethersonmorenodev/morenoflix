@@ -5,7 +5,7 @@ import FormField from '../../../components/FormField';
 import Button from '../../../components/Button';
 import useForm from '../../../hooks/useForm';
 import videosRepository from '../../../repositories/videos';
-import categoriasRepository from '../../../repositories/categorias';
+import categoriasRepository, { ICategoria } from '../../../repositories/categorias';
 
 const valoresIniciaisToForm = {
   titulo: '',
@@ -14,12 +14,12 @@ const valoresIniciaisToForm = {
 };
 
 const CadastroVideo = () => {
-  const [categorias, setCategorias] = useState([]);
+  const [categorias, setCategorias] = useState<ICategoria[]>([]);
   const history = useHistory();
   const { values, handleChange } = useForm(valoresIniciaisToForm);
   const categoryTitles = categorias.map(({ titulo }) => titulo);
 
-  const handleSubmit = event => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const categoria = categorias.find(cat => cat.titulo === values.categoria);
     if (!categoria) {
