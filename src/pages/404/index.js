@@ -9,7 +9,7 @@ const GameArea = styled.div`
   justify-content: center;
 `;
 
-const urlBaseGame = 'http://localhost:5000';
+const urlBaseGame = 'https://pethersonmoreno.github.io/flappy-bird-moreno';
 
 const Pagina404 = () => {
   const [ready, setReady] = useState(false);
