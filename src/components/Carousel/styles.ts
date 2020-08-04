@@ -11,6 +11,7 @@ export const Title = styled.h3`
   background: red;
   line-height: 1;
   border-radius: 4px;
+  color: var(--grayLight);
 
   @media (max-width: 800px) {
     font-size: 18px;
