@@ -48,9 +48,29 @@ const startJsonServer = async () => {
   const middlewares = jsonServer.defaults();
 
   const port = process.env.PORT || 8080;
+  const fail = (req, res, status, body) => {
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.status(status).send(body);
+  };
+  server.use((req, res, next) => {
+    if (req.method === 'GET' || req.method === 'OPTIONS') {
+      next();
+      return;
+    }
+    if (!req.headers.authorization) {
+      fail(req, res, 401, 'missing authorization header');
+      return;
+    }
+    if (process.env.SECURITY_CODE !== req.headers.authorization) {
+      fail(req, res, 401);
+      return;
+    }
+    next();
+  });
   if (persistStorage()) {
     server.use((req, res, next) => {
-      if (req.method !== 'GET') {
+      if (req.method !== 'GET' && req.method !== 'OPTIONS') {
         res.on('finish', async () => {
           await copyToStorage();
         });
@@ -73,4 +93,10 @@ const start = async () => {
   await startJsonServer();
 };
 
-start();
+if (!process.env.SECURITY_CODE) {
+  // eslint-disable-next-line no-console
+  console.error('Configure env variable SECURITY_CODE to start application server');
+  process.exit(-1);
+} else {
+  start();
+}

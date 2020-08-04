@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import PageDefault from '../../../components/PageDefault';
@@ -11,6 +12,7 @@ type TFormCategoria = {
   cor: string;
   linkTexto: string;
   linkUrl: string;
+  securityCode: string;
 };
 
 const valoresIniciaisToForm: TFormCategoria = {
@@ -18,6 +20,7 @@ const valoresIniciaisToForm: TFormCategoria = {
   cor: '',
   linkTexto: '',
   linkUrl: '',
+  securityCode: '',
 };
 
 const validateForm = (values: TFormCategoria) => {
@@ -25,6 +28,7 @@ const validateForm = (values: TFormCategoria) => {
     titulo: !values.titulo ? 'Título é obrigatório' : '',
     cor: !values.cor ? 'Cor é obrigatória' : '',
     linkUrl: values.linkUrl && !/^https?:\/\//.test(values.linkUrl) ? 'URL inválida' : '',
+    securityCode: !values.securityCode ? 'Código de segurança é obrigatório' : '',
   };
 };
 
@@ -43,7 +47,6 @@ const CadastroCategoria = () => {
       event.preventDefault();
       if (invalidForm) {
         setIgnoreTouched(true);
-        // eslint-disable-next-line no-alert
         alert('Preencha os campos corretamente');
         return;
       }
@@ -58,10 +61,15 @@ const CadastroCategoria = () => {
         };
       }
       setIgnoreTouched(false);
-      categoriasRepository.create(novaCategoria).then(categoria => {
-        setCategorias(old => [...old, categoria]);
-        clearForm();
-      });
+      categoriasRepository
+        .create(values.securityCode, novaCategoria)
+        .then(categoria => {
+          setCategorias(old => [...old, categoria]);
+          clearForm();
+        })
+        .catch(ex => {
+          alert(ex.message);
+        });
     },
     [invalidForm, values, clearForm],
   );
@@ -101,6 +109,14 @@ const CadastroCategoria = () => {
           onChange={form.handleChange}
           onBlur={form.handleBlur}
           errorMessage={(ignoreTouched || form.touched.linkUrl) && form.errors.linkUrl}
+        />
+        <FormField
+          label="Código de segurança"
+          value={form.values.securityCode}
+          name="securityCode"
+          onChange={form.handleChange}
+          onBlur={form.handleBlur}
+          errorMessage={(ignoreTouched || form.touched.securityCode) && form.errors.securityCode}
         />
         <Button type="submit">Cadastrar</Button>
         <Button secondary spaced type="button" onClick={form.clearForm}>

@@ -29,6 +29,9 @@ const getByQuery = (query?: TQuery): Promise<ICategoriaWithVideo[]> =>
     if (r.ok) {
       return r.json();
     }
+    if (r.status === 401) {
+      throw new Error('Sem autorização  :(');
+    }
 
     throw new Error('Não foi possível pegar os dados :(');
   });
@@ -37,11 +40,12 @@ const getAll = (): Promise<ICategoria[]> => getByQuery();
 
 const getAllWithVideos = (): Promise<ICategoriaWithVideo[]> => getByQuery({ _embed: 'videos' });
 
-const create = (novaCategoria: ICategoriaWithoutId): Promise<ICategoria> =>
+const create = (securityCode: string, novaCategoria: ICategoriaWithoutId): Promise<ICategoria> =>
   fetch(URL_CATEGORIAS, {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
+      Authorization: securityCode,
     },
     method: 'POST',
     body: JSON.stringify(novaCategoria),
@@ -49,7 +53,9 @@ const create = (novaCategoria: ICategoriaWithoutId): Promise<ICategoria> =>
     if (r.ok) {
       return r.json();
     }
-
+    if (r.status === 401) {
+      throw new Error('Sem autorização  :(');
+    }
     throw new Error('Não foi possível cadastrar a categoria :(');
   });
 

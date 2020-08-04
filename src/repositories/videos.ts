@@ -16,21 +16,28 @@ const getAll = (): Promise<IVideo[]> =>
     if (r.ok) {
       return r.json();
     }
+    if (r.status === 401) {
+      throw new Error('Sem autorização  :(');
+    }
 
     throw new Error('Não foi possível pegar os dados :(');
   });
 
-const create = (novoVideo: IVideoWithoutId): Promise<IVideo> =>
+const create = (securityCode: string, novoVideo: IVideoWithoutId): Promise<IVideo> =>
   fetch(URL_VIDEOS, {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
+      Authorization: securityCode,
     },
     method: 'POST',
     body: JSON.stringify(novoVideo),
   }).then(r => {
     if (r.ok) {
       return r.json();
+    }
+    if (r.status === 401) {
+      throw new Error('Sem autorização  :(');
     }
 
     throw new Error('Não foi possível cadastrar o vídeo :(');
