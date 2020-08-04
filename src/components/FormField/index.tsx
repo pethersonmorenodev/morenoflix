@@ -4,11 +4,9 @@ import styled, { css, StyledComponentBase, StyledComponent } from 'styled-compon
 
 const FormFieldWrapper = styled.div`
   position: relative;
+  margin-bottom: 45px;
   textarea {
     min-height: 150px;
-  }
-  input[type='color'] {
-    padding-left: 56px;
   }
 `;
 interface ILabel extends StyledComponentBase<'label', any, {}, never> {
@@ -21,7 +19,7 @@ Label.Text = styled.span`
   height: 57px;
   position: absolute;
   top: 0;
-  left: 16px;
+  left: 15px;
 
   display: flex;
   align-items: center;
@@ -47,8 +45,13 @@ const Input = (styled.input`
   border-top: 4px solid transparent;
   border-bottom: 4px solid #53585d;
 
-  padding: 16px 16px;
-  margin-bottom: 45px;
+  padding: 15px 15px 14px;
+  &[type='color'] {
+    padding: 15px 15px 5px;
+    &::-webkit-color-swatch {
+      border: none;
+    }
+  }
 
   resize: none;
   border-radius: 4px;
@@ -57,7 +60,7 @@ const Input = (styled.input`
   &:focus {
     border-bottom-color: var(--primary);
   }
-  &:focus:not([type='color']) + ${Label.Text} {
+  &:focus + ${Label.Text} {
     transform: scale(0.6) translateY(-10px);
   }
   ${({ value }) => {
@@ -65,7 +68,7 @@ const Input = (styled.input`
     return (
       hasValue &&
       css`
-        &:not([type='color']) + ${Label.Text} {
+        & + ${Label.Text} {
           transform: scale(0.6) translateY(-10px);
         }
       `
