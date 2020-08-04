@@ -1,7 +1,6 @@
 import styledBase, { StyledComponentBase, StyledComponent } from 'styled-components';
-import { withProps } from '../../helpers/withProps';
 
-interface TPropsBannerMainContainer extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> {
+interface TPropsBannerMainContainer {
   backgroundImage: string;
 }
 
@@ -12,7 +11,11 @@ const styled = {
   p: styledBase.p,
   h2: styledBase.h2,
   button: styledBase.button,
-  sectionBannerMainContainer: withProps<TPropsBannerMainContainer>()(styledBase.section),
+  sectionBannerMainContainer: styledBase.section
+    .withConfig({
+      shouldForwardProp: (prop, defaultValidatorFn) => !['backgroundImage'].includes(prop) && defaultValidatorFn(prop),
+    })
+    .attrs((props: TPropsBannerMainContainer) => props),
 };
 
 interface IContentAreaContainer extends StyledComponentBase<'section', any, {}, never> {

@@ -1,6 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { css, StyledComponentBase, StyledComponent } from 'styled-components';
+import styledBase, { css, StyledComponentBase, StyledComponent } from 'styled-components';
+
+type TInput = {
+  hasError?: boolean;
+};
+
+const styled = {
+  div: styledBase.div,
+  span: styledBase.span,
+  label: styledBase.label,
+  input: styledBase.input
+    .withConfig({
+      shouldForwardProp: (prop, defaultValidatorFn) => !['hasError'].includes(prop) && defaultValidatorFn(prop),
+    })
+    .attrs((props: TInput) => props),
+};
 
 const FormFieldWrapper = styled.div`
   position: relative;
@@ -11,6 +26,7 @@ const FormFieldWrapper = styled.div`
 `;
 interface ILabel extends StyledComponentBase<'label', any, {}, never> {
   Text: StyledComponent<'span', any, {}, never>;
+  ErrorMessage: StyledComponent<'span', any, {}, never>;
 }
 
 const Label: ILabel = (styled.label`` as unknown) as ILabel;
@@ -31,8 +47,12 @@ Label.Text = styled.span`
 
   transition: 0.1s ease-in-out;
 `;
+Label.ErrorMessage = styled.span`
+  padding-left: 15px;
+  color: var(--errorLightMedium);
+`;
 
-const Input = (styled.input`
+const Input = styled.input`
   background: #53585d;
   color: #f5f5f5;
   display: block;
@@ -63,6 +83,9 @@ const Input = (styled.input`
   &:focus + ${Label.Text} {
     transform: scale(0.6) translateY(-10px);
   }
+  &[type='color'] + ${Label.Text} {
+    transform: scale(0.6) translateY(-10px);
+  }
   ${({ value }) => {
     const hasValue = value && typeof value === 'string' && value.length > 0;
     return (
@@ -74,7 +97,13 @@ const Input = (styled.input`
       `
     );
   }}
-` as unknown) as StyledComponent<'input' | 'textarea', any, {}, never>;
+  ${({ hasError }) =>
+    hasError &&
+    css`
+      border-bottom-color: var(--errorMedium);
+      margin-bottom: 2px;
+    `}
+`;
 
 type TParamsFormField = {
   label: string;
@@ -82,10 +111,12 @@ type TParamsFormField = {
   name: string;
   value: string;
   onChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+  onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
   suggestions: string[];
+  errorMessage?: string;
 };
 
-const FormField = ({ label, type, name, value, onChange, suggestions }: TParamsFormField) => {
+const FormField = ({ label, type, name, value, onChange, onBlur, suggestions, errorMessage }: TParamsFormField) => {
   const fieldId = `id_${name}`;
   const isTextarea = type === 'textarea';
   const hasSuggestions = suggestions.length > 0;
@@ -107,10 +138,13 @@ const FormField = ({ label, type, name, value, onChange, suggestions }: TParamsF
           name={name}
           value={value}
           onChange={onChange}
+          onBlur={onBlur}
+          hasError={!!errorMessage}
           // eslint-disable-next-line react/jsx-props-no-spreading
           {...onlyInputProps}
         />
         <Label.Text>{label}:</Label.Text>
+        {errorMessage && <Label.ErrorMessage>{errorMessage}</Label.ErrorMessage>}
         {hasSuggestions && (
           <datalist id={`suggestionFor_${fieldId}`}>
             {suggestions.map(suggestion => (

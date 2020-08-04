@@ -1,15 +1,19 @@
-import React from 'react';
 import styledBase, { css } from 'styled-components';
-import { withProps } from '../../helpers/withProps';
 
-interface TButton extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
+type TButton = {
   primary?: boolean;
   secondary?: boolean;
   dark?: boolean;
-}
+  spaced?: boolean;
+};
 
 const styled = {
-  button: withProps<TButton>()(styledBase.button),
+  button: styledBase.button
+    .withConfig({
+      shouldForwardProp: (prop, defaultValidatorFn) =>
+        !['primary', 'secondary', 'dark', 'spaced'].includes(prop) && defaultValidatorFn(prop),
+    })
+    .attrs((props: TButton) => props),
 };
 const Button = styled.button`
   color: var(--white);
@@ -47,6 +51,11 @@ const Button = styled.button`
     css`
       background: var(--blackDark);
       border: 1px solid var(--white);
+    `}
+  ${({ spaced }) =>
+    spaced &&
+    css`
+      margin: 0 30px;
     `}
 `;
 
