@@ -14,6 +14,7 @@ function useForm<TData, TErrors>({
   invalid: boolean;
   handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   handleBlur: (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  setValues: (valuesFromOutside: TData) => void;
   clearForm: () => void;
 } {
   const [errors, setErrors] = useState({} as TErrors);
@@ -46,12 +47,17 @@ function useForm<TData, TErrors>({
     }
     setTouchedFields((oldValues: any) => ({ ...oldValues, [fieldName]: true }));
   }, []);
+  const handleSetValues = useCallback((valuesFromOutside: TData) => {
+    setValues(valuesFromOutside);
+    setTouchedFields({});
+  }, []);
   const clearForm = useCallback(() => {
     setValues(initialValues);
     setTouchedFields({});
   }, [initialValues]);
   return {
     values,
+    setValues: handleSetValues,
     errors,
     touched,
     invalid,

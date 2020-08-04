@@ -43,7 +43,7 @@ const Button = styled.button`
   ${({ secondary }) =>
     secondary &&
     css`
-      color: var(--white);
+      color: var(--blackDark);
       background: var(--blackLighter);
     `}
   ${({ dark }) =>

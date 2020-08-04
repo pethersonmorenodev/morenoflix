@@ -9,6 +9,7 @@ type TQuery = {
 };
 export interface ICategoriaWithoutId {
   titulo: string;
+  descricao?: string;
   cor: string;
   // eslint-disable-next-line camelcase
   link_extra?: {
@@ -59,8 +60,48 @@ const create = (securityCode: string, novaCategoria: ICategoriaWithoutId): Promi
     throw new Error('Não foi possível cadastrar a categoria :(');
   });
 
+const update = (securityCode: string, categoria: ICategoria): Promise<ICategoria> => {
+  const { id, ...fieldsToUpdate } = categoria;
+  return fetch(`${URL_CATEGORIAS}/${id}`, {
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: securityCode,
+    },
+    method: 'PUT',
+    body: JSON.stringify(fieldsToUpdate),
+  }).then(r => {
+    if (r.ok) {
+      return r.json();
+    }
+    if (r.status === 401) {
+      throw new Error('Sem autorização  :(');
+    }
+    throw new Error('Não foi possível atualizar a categoria :(');
+  });
+};
+
+const remove = (securityCode: string, id: number): Promise<ICategoria> =>
+  fetch(`${URL_CATEGORIAS}/${id}`, {
+    headers: {
+      Accept: 'application/json',
+      Authorization: securityCode,
+    },
+    method: 'DELETE',
+  }).then(r => {
+    if (r.ok) {
+      return r.json();
+    }
+    if (r.status === 401) {
+      throw new Error('Sem autorização  :(');
+    }
+    throw new Error('Não foi possível remover a categoria :(');
+  });
+
 export default {
   getAll,
   getAllWithVideos,
   create,
+  update,
+  remove,
 };

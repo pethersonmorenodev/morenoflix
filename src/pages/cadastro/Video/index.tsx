@@ -117,6 +117,7 @@ const CadastroVideo = () => {
           errorMessage={(ignoreTouched || form.touched.categoria) && form.errors.categoria}
         />
         <FormField
+          type="password"
           label="Código de segurança"
           value={form.values.securityCode}
           name="securityCode"
