@@ -17,20 +17,23 @@ function Home() {
         window.alert(err.message);
       });
   }, []);
+  const firstCategoryWithVideo = dadosIniciais.find(c => c.videos.length > 0);
   return (
     <PageDefault paddingAll={0}>
       {dadosIniciais.length === 0 && <div>Loading ...</div>}
 
       {dadosIniciais.length >= 1 && (
         <>
-          <BannerMain
-            videoTitle={dadosIniciais[0].videos[0].titulo}
-            url={dadosIniciais[0].videos[0].url}
-            // eslint-disable-next-line max-len
-            videoDescription="O que é Front-end? Trabalhando na área os termos HTML, CSS e JavaScript fazem parte da rotina das desenvolvedoras e desenvolvedores. Mas o que eles fazem, afinal? Descubra com a Vanessa!"
-          />
-          {dadosIniciais.map((categoria, index) => (
-            <Carousel key={categoria.id} ignoreFirstVideo={index === 0} category={categoria} />
+          {firstCategoryWithVideo && (
+            <BannerMain
+              videoTitle={firstCategoryWithVideo.videos[0].titulo}
+              url={firstCategoryWithVideo.videos[0].url}
+              // eslint-disable-next-line max-len
+              videoDescription="O que é Front-end? Trabalhando na área os termos HTML, CSS e JavaScript fazem parte da rotina das desenvolvedoras e desenvolvedores. Mas o que eles fazem, afinal? Descubra com a Vanessa!"
+            />
+          )}
+          {dadosIniciais.map(categoria => (
+            <Carousel key={categoria.id} ignoreFirstVideo={categoria === firstCategoryWithVideo} category={categoria} />
           ))}
         </>
       )}
