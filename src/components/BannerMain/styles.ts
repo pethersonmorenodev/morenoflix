@@ -126,7 +126,7 @@ export const WatchButton = styled.button`
   font-family: 'Roboto', sans-serif;
   box-sizing: border-box;
   cursor: pointer;
-  padding: 16px 24px;
+  padding: 10px 24px;
   font-style: normal;
   font-weight: bold;
   font-size: 16px;
@@ -135,9 +135,9 @@ export const WatchButton = styled.button`
   text-decoration: none;
   display: inline-block;
   border: 1px solid transparent;
-  color: var(--black);
-  background: var(--white);
-  border-color: var(--black);
+  color: var(--blackDark);
+  background: var(--grayLight);
+  border-color: var(--blackDark);
   transition: opacity 0.3s;
   display: none;
   margin: 0 auto;

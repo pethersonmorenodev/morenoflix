@@ -9,7 +9,7 @@ const Menu = () => (
     <Link to="/">
       <img className="Logo" src={Logo} alt="MorenoFlix logo" />
     </Link>
-    <Button as={Link} className="ButtonLink" to="/cadastro/video">
+    <Button as={Link} className="ButtonLink" to="/cadastro/video" dark>
       Novo vídeo
     </Button>
   </nav>
