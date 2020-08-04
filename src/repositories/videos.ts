@@ -43,7 +43,47 @@ const create = (securityCode: string, novoVideo: IVideoWithoutId): Promise<IVide
     throw new Error('Não foi possível cadastrar o vídeo :(');
   });
 
+const update = (securityCode: string, categoria: IVideo): Promise<IVideo> => {
+  const { id, ...fieldsToUpdate } = categoria;
+  return fetch(`${URL_VIDEOS}/${id}`, {
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: securityCode,
+    },
+    method: 'PUT',
+    body: JSON.stringify(fieldsToUpdate),
+  }).then(r => {
+    if (r.ok) {
+      return r.json();
+    }
+    if (r.status === 401) {
+      throw new Error('Sem autorização  :(');
+    }
+    throw new Error('Não foi possível atualizar o vídeo :(');
+  });
+};
+
+const remove = (securityCode: string, id: number): Promise<IVideo> =>
+  fetch(`${URL_VIDEOS}/${id}`, {
+    headers: {
+      Accept: 'application/json',
+      Authorization: securityCode,
+    },
+    method: 'DELETE',
+  }).then(r => {
+    if (r.ok) {
+      return r.json();
+    }
+    if (r.status === 401) {
+      throw new Error('Sem autorização  :(');
+    }
+    throw new Error('Não foi possível remover o vídeo :(');
+  });
+
 export default {
   getAll,
   create,
+  update,
+  remove,
 };

@@ -53,7 +53,7 @@ const CadastroCategoria = () => {
         alert('Preencha os campos corretamente');
         return;
       }
-      const dadosCategoria: ICategoria | ICategoriaWithoutId = {
+      const dadosCategoria: ICategoriaWithoutId = {
         titulo: values.titulo,
         descricao: values.descricao,
         cor: values.cor,
