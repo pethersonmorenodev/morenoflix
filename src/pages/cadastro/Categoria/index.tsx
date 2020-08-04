@@ -6,6 +6,7 @@ import Button from '../../../components/Button';
 import useForm from '../../../hooks/useForm';
 import categoriasRepository, { ICategoria, ICategoriaWithoutId } from '../../../repositories/categorias';
 import { Table } from './styles';
+import Loading from '../../../components/Loading';
 
 type TFormCategoria = {
   id?: number;
@@ -169,45 +170,47 @@ const CadastroCategoria = () => {
         </Button>
       </form>
 
-      {loading && <div>Loading...</div>}
-      <Table>
-        <Table.RowHeader>
-          <Table.Cell>Nome</Table.Cell>
-          <Table.Cell>Descrição</Table.Cell>
-          <Table.Cell>Editar</Table.Cell>
-          <Table.Cell>Remover</Table.Cell>
-        </Table.RowHeader>
-        {categorias.map(categoria => (
-          <Table.Row key={categoria.id}>
-            <Table.Cell>{categoria.titulo}</Table.Cell>
-            <Table.Cell>{categoria.descricao}</Table.Cell>
-            <Table.Cell>
-              <Button
-                primary
-                type="button"
-                onClick={() =>
-                  form.setValues({
-                    id: categoria.id,
-                    titulo: categoria.titulo,
-                    descricao: categoria.descricao || '',
-                    cor: categoria.cor,
-                    linkTexto: categoria.link_extra?.text || '',
-                    linkUrl: categoria.link_extra?.url || '',
-                    securityCode: values.securityCode,
-                  })
-                }
-              >
-                Editar
-              </Button>
-            </Table.Cell>
-            <Table.Cell>
-              <Button secondary type="button" onClick={() => handleRemove(categoria)}>
-                Remover
-              </Button>
-            </Table.Cell>
-          </Table.Row>
-        ))}
-      </Table>
+      {loading && <Loading />}
+      {!loading && (
+        <Table>
+          <Table.RowHeader>
+            <Table.Cell>Nome</Table.Cell>
+            <Table.Cell>Descrição</Table.Cell>
+            <Table.Cell>Editar</Table.Cell>
+            <Table.Cell>Remover</Table.Cell>
+          </Table.RowHeader>
+          {categorias.map(categoria => (
+            <Table.Row key={categoria.id}>
+              <Table.Cell>{categoria.titulo}</Table.Cell>
+              <Table.Cell>{categoria.descricao}</Table.Cell>
+              <Table.Cell>
+                <Button
+                  primary
+                  type="button"
+                  onClick={() =>
+                    form.setValues({
+                      id: categoria.id,
+                      titulo: categoria.titulo,
+                      descricao: categoria.descricao || '',
+                      cor: categoria.cor,
+                      linkTexto: categoria.link_extra?.text || '',
+                      linkUrl: categoria.link_extra?.url || '',
+                      securityCode: values.securityCode,
+                    })
+                  }
+                >
+                  Editar
+                </Button>
+              </Table.Cell>
+              <Table.Cell>
+                <Button secondary type="button" onClick={() => handleRemove(categoria)}>
+                  Remover
+                </Button>
+              </Table.Cell>
+            </Table.Row>
+          ))}
+        </Table>
+      )}
     </PageDefault>
   );
 };

@@ -3,6 +3,7 @@ import BannerMain from '../../components/BannerMain';
 import Carousel from '../../components/Carousel';
 import PageDefault from '../../components/PageDefault';
 import categoriasRepository, { ICategoriaWithVideo } from '../../repositories/categorias';
+import Loading from '../../components/Loading';
 
 function Home() {
   const [dadosIniciais, setDadosIniciais] = useState<ICategoriaWithVideo[]>([]);
@@ -20,9 +21,9 @@ function Home() {
   const firstCategoryWithVideo = dadosIniciais.find(c => c.videos.length > 0);
   return (
     <PageDefault paddingAll={0}>
-      {dadosIniciais.length === 0 && <div>Loading ...</div>}
+      {dadosIniciais.length === 0 && <Loading />}
 
-      {dadosIniciais.length >= 1 && (
+      {dadosIniciais.length > 0 && (
         <>
           {firstCategoryWithVideo && (
             <BannerMain

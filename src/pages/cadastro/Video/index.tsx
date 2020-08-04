@@ -8,6 +8,7 @@ import useForm from '../../../hooks/useForm';
 import videosRepository, { IVideo } from '../../../repositories/videos';
 import categoriasRepository, { ICategoria } from '../../../repositories/categorias';
 import { Table } from './styles';
+import Loading from '../../../components/Loading';
 
 type TFormVideo = {
   id?: number;
@@ -185,43 +186,45 @@ const CadastroVideo = () => {
         </Button>
       </form>
 
-      {loading && <div>Loading...</div>}
-      <Table>
-        <Table.RowHeader>
-          <Table.Cell>Nome</Table.Cell>
-          <Table.Cell>Categoria</Table.Cell>
-          <Table.Cell>Editar</Table.Cell>
-          <Table.Cell>Remover</Table.Cell>
-        </Table.RowHeader>
-        {videos.map(video => (
-          <Table.Row key={video.id}>
-            <Table.Cell>{video.titulo}</Table.Cell>
-            <Table.Cell>{getCategoryTitle(video.categoriaId)}</Table.Cell>
-            <Table.Cell>
-              <Button
-                primary
-                type="button"
-                onClick={() =>
-                  form.setValues({
-                    id: video.id,
-                    titulo: video.titulo,
-                    url: video.url,
-                    categoria: getCategoryTitle(video.categoriaId),
-                    securityCode: values.securityCode,
-                  })
-                }
-              >
-                Editar
-              </Button>
-            </Table.Cell>
-            <Table.Cell>
-              <Button secondary type="button" onClick={() => handleRemove(video)}>
-                Remover
-              </Button>
-            </Table.Cell>
-          </Table.Row>
-        ))}
-      </Table>
+      {loading && <Loading />}
+      {!loading && (
+        <Table>
+          <Table.RowHeader>
+            <Table.Cell>Nome</Table.Cell>
+            <Table.Cell>Categoria</Table.Cell>
+            <Table.Cell>Editar</Table.Cell>
+            <Table.Cell>Remover</Table.Cell>
+          </Table.RowHeader>
+          {videos.map(video => (
+            <Table.Row key={video.id}>
+              <Table.Cell>{video.titulo}</Table.Cell>
+              <Table.Cell>{getCategoryTitle(video.categoriaId)}</Table.Cell>
+              <Table.Cell>
+                <Button
+                  primary
+                  type="button"
+                  onClick={() =>
+                    form.setValues({
+                      id: video.id,
+                      titulo: video.titulo,
+                      url: video.url,
+                      categoria: getCategoryTitle(video.categoriaId),
+                      securityCode: values.securityCode,
+                    })
+                  }
+                >
+                  Editar
+                </Button>
+              </Table.Cell>
+              <Table.Cell>
+                <Button secondary type="button" onClick={() => handleRemove(video)}>
+                  Remover
+                </Button>
+              </Table.Cell>
+            </Table.Row>
+          ))}
+        </Table>
+      )}
     </PageDefault>
   );
 };
