@@ -1,9 +1,18 @@
-import styled from 'styled-components';
+import React from 'react';
+import styledBase, { css } from 'styled-components';
+import { withProps } from '../../helpers/withProps';
 
+interface TButton extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
+  topBar?: boolean;
+}
+
+const styled = {
+  button: withProps<TButton>()(styledBase.button),
+};
 const Button = styled.button`
   color: var(--white);
   border: 1px solid var(--white);
-  background: var(--black);
+  background: var(--primary);
   box-sizing: border-box;
   cursor: pointer;
   padding: 16px 24px;
@@ -19,6 +28,14 @@ const Button = styled.button`
   &:focus {
     opacity: 0.5;
   }
+  ${({ topBar }) => {
+    return (
+      topBar &&
+      css`
+        background: var(--black);
+      `
+    );
+  }}
 `;
 
 export default Button;
